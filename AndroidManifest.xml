@@ -3176,6 +3176,7 @@
             android:theme="@android:style/Theme.NoDisplay"
             android:permission="android.permission.DUMP"
             android:enabled="@bool/config_has_help" />
+
         <!-- This is the longest AndroidManifest.xml ever. -->
         <receiver
             android:name=".cyanogenmod.ProtectedAppsReceiver"
@@ -3213,6 +3214,23 @@
                 <category android:name="com.android.settings.SHORTCUT" />
             </intent-filter>
         </activity>
+
+        <!-- maru -->
+        <activity android:name="Settings$MDesktopSettingsActivity"
+            android:label="@string/desktop_main_settings_title"
+            android:taskAffinity="com.android.settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.MDESKTOP_SETTINGS" />
+                <action android:name="com.android.settings.MDESKTOP_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+                android:value="com.android.settings.mdesktop.MDesktopSettings" />
+            <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/desktop_status_settings" />
+        </activity>
+        <!-- /maru -->
 
     </application>
 </manifest>
