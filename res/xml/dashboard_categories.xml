@@ -149,6 +149,21 @@
 
     </dashboard-category>
 
+    <!-- DESKTOP -->
+    <dashboard-category
+        android:id="@+id/desktop_section"
+        android:title="@string/header_category_desktop" >
+
+        <!-- Main Maru Desktop settings -->
+        <dashboard-tile
+                android:id="@+id/desktop_status_settings"
+                android:title="@string/desktop_main_settings_title"
+                android:fragment="com.android.settings.mdesktop.MDesktopSettings"
+                android:icon="@drawable/ic_desktop_power"
+                />
+
+    </dashboard-category>
+
     <!-- PERSONAL -->
     <dashboard-category
             android:id="@+id/personal_section"

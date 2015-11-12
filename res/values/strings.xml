@@ -6050,4 +6050,19 @@
    <string name="imei_information_summary">IMEI relative information</string>
    <string name="slot_number">(Slot<xliff:g id="slot_num">%1$d</xliff:g>)</string>
 
+    <!-- Maru Desktop settings --><skip/>
+    <string name="header_category_desktop">Desktop</string>
+    <string name="desktop_main_settings_title">Dash</string>
+    <string name="desktop_center_text_starting">Maru Desktop is starting...</string>
+    <string name="desktop_center_text_stopping">Maru Desktop is shutting down...</string>
+    <string name="desktop_center_text_running">Maru Desktop running.</string>
+    <string name="desktop_center_text_stopped">Maru Desktop off.</string>
+    <string name="desktop_center_text_off_hdmi_disconnected">Connect to an HDMI display to start Maru Desktop.</string>
+    <string name="desktop_shutdown_dialog_title">Shutdown desktop?</string>
+    <string name="desktop_shutdown_dialog_details">Your desktop apps will be closed immediately so make sure you save any unfinished work.</string>
+    <string name="desktop_shutdown_dialog_negative_action">Cancel</string>
+    <string name="desktop_shutdown_dialog_positive_action">Shutdown</string>
+
+
+
 </resources>
