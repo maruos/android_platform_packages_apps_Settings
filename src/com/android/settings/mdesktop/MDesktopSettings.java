@@ -9,6 +9,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.hardware.display.DisplayManager;
+import android.mperspective.Perspective;
 import android.mperspective.PerspectiveManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,13 +37,7 @@ public class MDesktopSettings extends Fragment
     private DesktopPerspectiveListener mDesktopListener;
     private boolean mDesktopListening = false;
 
-    private enum State {
-        STARTING,
-        STOPPING,
-        STOPPED,
-        RUNNING
-    }
-    private State mDesktopState;
+    private int mDesktopState;
 
     private DisplayManager mDisplayManager;
     private HdmiDisplayListener mHdmiDisplayListener;
@@ -57,6 +52,7 @@ public class MDesktopSettings extends Fragment
     private ShutdownDialogFragment mShutdownDialogFragment;
     private static final String SHUTDOWN_DIALOG_TAG = ShutdownDialogFragment.class.getName();
     private boolean mShutdownConfirmed = false;
+    private boolean mOverrideShutdownDialog = false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -148,20 +144,23 @@ public class MDesktopSettings extends Fragment
 
     @Override
     public boolean onBeforeCheckedChanged(ToggleSwitch toggleSwitch, boolean checked) {
-        boolean attemptedShutdown = toggleSwitch.isChecked() && !checked;
-        if (attemptedShutdown) {
-            if (!mShutdownConfirmed) {
-                mShutdownDialogFragment = new ShutdownDialogFragment();
-                mShutdownDialogFragment.listener = this;
-                mShutdownDialogFragment.show(getFragmentManager(), SHUTDOWN_DIALOG_TAG);
-                /*
-                 * Ignore the change until the user confirms the dialog.
-                 * The dialog action callbacks will set the state.
-                 */
-                return true;
-            } else {
-                // reset the confirmation for next time
-                mShutdownConfirmed = false;
+        if (!mOverrideShutdownDialog) {
+            boolean attemptedShutdown = toggleSwitch.isChecked() && !checked
+                    && mDesktopState == Perspective.STATE_RUNNING;
+            if (attemptedShutdown) {
+                if (!mShutdownConfirmed) {
+                    mShutdownDialogFragment = new ShutdownDialogFragment();
+                    mShutdownDialogFragment.listener = this;
+                    mShutdownDialogFragment.show(getFragmentManager(), SHUTDOWN_DIALOG_TAG);
+                    /*
+                    * Ignore the change until the user confirms the dialog.
+                    * The dialog action callbacks will set the state.
+                    */
+                    return true;
+                } else {
+                    // reset the confirmation for next time
+                    mShutdownConfirmed = false;
+                }
             }
         }
 
@@ -182,18 +181,18 @@ public class MDesktopSettings extends Fragment
     @Override
     public void onSwitchChanged(Switch switchView, boolean isChecked) {
         if (isChecked) {
-            if (mDesktopState == State.STOPPED) {
+            if (mDesktopState == Perspective.STATE_STOPPED) {
+                // prematurely update our state so the user has immediate feedback
+                updateDesktopStateIfNeeded(Perspective.STATE_STARTING);
+
                 mPerspectiveManager.startDesktopPerspective();
-                mDesktopState = State.STARTING;
-                Log.d(TAG, "Desktop STARTING!");
-                updateView();
             }
         } else {
-            if (mDesktopState == State.RUNNING) {
+            if (mDesktopState == Perspective.STATE_RUNNING) {
+                // prematurely update our state so the user has immediate feedback
+                updateDesktopStateIfNeeded(Perspective.STATE_STOPPING);
+
                 mPerspectiveManager.stopDesktopPerspective();
-                mDesktopState = State.STOPPING;
-                Log.d(TAG, "Desktop STOPPING!");
-                updateView();
             }
         }
     }
@@ -205,7 +204,7 @@ public class MDesktopSettings extends Fragment
          */
 
         mDesktopState = mPerspectiveManager.isDesktopRunning() ?
-                State.RUNNING : State.STOPPED;
+                Perspective.STATE_RUNNING : Perspective.STATE_STOPPED;
 
         mHdmiDisplayListener.sync();
         mHdmiDisplayConnected = mHdmiDisplayListener.isHdmiDisplayConnected();
@@ -213,51 +212,70 @@ public class MDesktopSettings extends Fragment
         updateView();
     }
 
+    private void updateDesktopStateIfNeeded(int state) {
+        if (mDesktopState != state) {
+            int prevState = mDesktopState;
+            mDesktopState = state;
+            updateView(prevState);
+        }
+    }
+
     private void updateView() {
+        updateView(mDesktopState);
+    }
+
+    private void updateView(int prevDesktopState) {
         switch (mDesktopState) {
-            case STARTING:
+            case Perspective.STATE_STARTING:
                 mSwitchBar.setChecked(true);
                 mSwitchBar.setEnabled(false);
                 mCenterTextView.setText(R.string.desktop_center_text_starting);
                 break;
-            case STOPPING:
+            case Perspective.STATE_STOPPING:
                 mSwitchBar.setChecked(false);
                 mSwitchBar.setEnabled(false);
                 mCenterTextView.setText(R.string.desktop_center_text_stopping);
                 break;
-            case STOPPED:
+            case Perspective.STATE_STOPPED:
                 mSwitchBar.setChecked(false);
-                if (mHdmiDisplayConnected) {
-                    mSwitchBar.setEnabled(true);
-                    mCenterTextView.setText(R.string.desktop_center_text_stopped);
-                } else {
-                    mSwitchBar.setEnabled(false);
-                    mCenterTextView.setText(R.string.desktop_center_text_off_hdmi_disconnected);
+                mSwitchBar.setEnabled(mHdmiDisplayConnected);
+                if (prevDesktopState == Perspective.STATE_STOPPING || prevDesktopState == mDesktopState) {
+                    if (mHdmiDisplayConnected) {
+                        mCenterTextView.setText(R.string.desktop_center_text_stopped);
+                    } else {
+                        mCenterTextView.setText(R.string.desktop_center_text_off_hdmi_disconnected);
+                    }
+                } else if (prevDesktopState == Perspective.STATE_STARTING) {
+                    mCenterTextView.setText(R.string.desktop_center_text_start_failure);
+                } else if (prevDesktopState == Perspective.STATE_RUNNING) {
+                    mCenterTextView.setText(R.string.desktop_center_text_crash);
                 }
                 break;
-            case RUNNING:
+            case Perspective.STATE_RUNNING:
                 mSwitchBar.setChecked(true);
                 mSwitchBar.setEnabled(true);
-                mCenterTextView.setText(R.string.desktop_center_text_running);
+                if (prevDesktopState == Perspective.STATE_STARTING || prevDesktopState == mDesktopState) {
+                    mCenterTextView.setText(R.string.desktop_center_text_running);
+                } else if (prevDesktopState == Perspective.STATE_STOPPING) {
+                    mCenterTextView.setText(R.string.desktop_center_text_stop_failure);
+                }
                 break;
         }
     }
 
     private final class DesktopPerspectiveListener
             implements PerspectiveManager.PerspectiveListener {
-
         @Override
-        public void onPerspectiveRunning() {
-            mDesktopState = State.RUNNING;
-            Log.d(TAG, "Desktop RUNNING!");
-            updateView();
-        }
-
-        @Override
-        public void onPerspectiveStopped() {
-            mDesktopState = State.STOPPED;
-            Log.d(TAG, "Desktop STOPPED!");
-            updateView();
+        public void onPerspectiveStateChanged(int state) {
+            Log.d(TAG, "onPerspectiveStateChanged: " + Perspective.stateToString(state));
+            /*
+             * Kind of ugly but due to the way the dialog is triggered
+             * we need to override it in the unlikely case that the state
+             * changes from STARTING to STOPPED (error) or RUNNING to STOPPED (crash).
+             */
+            mOverrideShutdownDialog = true;
+            updateDesktopStateIfNeeded(state);
+            mOverrideShutdownDialog = false;
         }
     }
 
