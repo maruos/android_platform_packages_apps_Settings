@@ -6052,7 +6052,7 @@
 
     <!-- Maru Desktop settings --><skip/>
     <string name="header_category_desktop">Desktop</string>
-    <string name="desktop_main_settings_title">Dash</string>
+    <string name="desktop_main_settings_title">Dashboard</string>
     <string name="desktop_center_text_starting">Maru Desktop is starting...</string>
     <string name="desktop_center_text_stopping">Maru Desktop is shutting down...</string>
     <string name="desktop_center_text_running">Maru Desktop running.</string>
