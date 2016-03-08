@@ -2376,6 +2376,8 @@
     <!-- About phone screen, status item label  [CHAR LIMIT=60] -->
     <string name="security_patch">Android security patch level</string>
     <!-- About phone screen, status item label  [CHAR LIMIT=40] -->
+    <string name="maru_version">Maru version</string>
+    <!-- About phone screen, status item label  [CHAR LIMIT=40] -->
     <string name="model_info">Model</string>
     <!-- About phone screen, fcc equipment id label  [CHAR LIMIT=40] -->
     <string name="fcc_equipment_id">Equipment ID</string>

@@ -104,6 +104,12 @@
                 settings:allowDividerAbove="true"
                 settings:allowDividerBelow="true"/>
 
+        <!-- Maru firmware version -->
+        <Preference android:key="maru_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/maru_version"
+                android:summary="@string/device_info_default"/>
+
         <!-- Device firmware version -->
         <Preference android:key="firmware_version"
                 android:enabled="false"
