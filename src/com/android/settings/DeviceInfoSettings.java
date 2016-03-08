@@ -80,6 +80,9 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String KEY_DEVICE_FEEDBACK = "device_feedback";
     private static final String KEY_SAFETY_LEGAL = "safetylegal";
 
+    private static final String KEY_MARU_VERSION = "maru_version";
+    private static final String PROPERTY_MARU_VERSION = "ro.build.maru.version";
+
     static final int TAPS_TO_BE_A_DEVELOPER = 7;
 
     long[] mHits = new long[3];
@@ -101,6 +104,8 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         setStringSummary(KEY_BUILD_NUMBER, Build.DISPLAY);
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(getFormattedKernelVersion());
+
+        setValueSummary(KEY_MARU_VERSION, PROPERTY_MARU_VERSION);
 
         if (!SELinux.isSELinuxEnabled()) {
             String status = getResources().getString(R.string.selinux_status_disabled);
