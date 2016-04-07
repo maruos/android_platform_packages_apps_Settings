@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -42,7 +41,9 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.android.internal.logging.MetricsLogger;
 import com.android.internal.util.ArrayUtils;
+import com.android.settings.InstrumentedPreferenceActivity;
 import com.android.settings.R;
 import com.android.settings.Utils;
 
@@ -56,7 +57,7 @@ import java.lang.ref.WeakReference;
  * # XMPP/buzz/tickle status : TODO
  *
  */
-public class Status extends PreferenceActivity {
+public class Status extends InstrumentedPreferenceActivity {
 
     private static final String KEY_BATTERY_STATUS = "battery_status";
     private static final String KEY_BATTERY_LEVEL = "battery_level";
@@ -71,7 +72,7 @@ public class Status extends PreferenceActivity {
     // Broadcasts to listen to for connectivity changes.
     private static final String[] CONNECTIVITY_INTENTS = {
             BluetoothAdapter.ACTION_STATE_CHANGED,
-            ConnectivityManager.CONNECTIVITY_ACTION_IMMEDIATE,
+            ConnectivityManager.CONNECTIVITY_ACTION,
             WifiManager.LINK_CONFIGURATION_CHANGED_ACTION,
             WifiManager.NETWORK_STATE_CHANGED_ACTION,
     };
@@ -204,8 +205,10 @@ public class Status extends PreferenceActivity {
             removePreferenceFromScreen(KEY_SERIAL_NUMBER);
         }
 
-        //Remove SimStatus and Imei for Secondary user as it access Phone b/19165700
-        if (UserHandle.myUserId() != UserHandle.USER_OWNER) {
+        // Remove SimStatus and Imei for Secondary user as it access Phone b/19165700
+        // Also remove on Wi-Fi only devices.
+        if (UserHandle.myUserId() != UserHandle.USER_OWNER
+                || Utils.isWifiOnly(this)) {
             removePreferenceFromScreen(KEY_SIM_STATUS);
             removePreferenceFromScreen(KEY_IMEI_INFO);
         }
@@ -230,6 +233,11 @@ public class Status extends PreferenceActivity {
                     return true;
                 }
             });
+    }
+
+    @Override
+    protected int getMetricsCategory() {
+        return MetricsLogger.DEVICEINFO_STATUS;
     }
 
     @Override
