@@ -122,4 +122,6 @@ public class Settings extends SettingsActivity {
     public static class AppWriteSettingsActivity extends SettingsActivity { /* empty */ }
 
     public static class MDesktopSettingsActivity extends SettingsActivity { /* empty */ }
+    public static class MDesktopTweaksSettingsActivity extends SettingsActivity { /* empty */ }
+
 }

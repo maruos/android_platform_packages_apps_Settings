@@ -7057,4 +7057,10 @@
     <string name="desktop_shutdown_dialog_negative_action">Cancel</string>
     <string name="desktop_shutdown_dialog_positive_action">Shutdown</string>
 
+    <string name="desktop_tweaks_settings_title">Tweaks</string>
+    <string name="keywords_desktop_tweaks">desktop tweaks experimental</string>
+    <string name="tweak_pick_native_mode_title">Enhanced resolution matching</string>
+    <string name="keywords_tweak_pick_native_mode">desktop tweaks resolution mode monitor HDMI external</string>
+    <!-- Desktop Tweaks screen, setting option summary to enable experimental mode picking algo [CHAR LIMIT=100] -->
+    <string name="tweak_pick_native_mode_summary">When connecting to an HDMI display, try to pick the display\'s native resolution</string>
 </resources>

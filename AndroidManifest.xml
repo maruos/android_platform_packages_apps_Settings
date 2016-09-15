@@ -2590,6 +2590,21 @@
             <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
                 android:resource="@id/desktop_status_settings" />
         </activity>
+
+        <activity android:name="Settings$MDesktopTweaksSettingsActivity"
+            android:label="@string/desktop_tweaks_settings_title"
+            android:taskAffinity="com.android.settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.MDESKTOP_TWEAKS_SETTINGS" />
+                <action android:name="com.android.settings.MDESKTOP_TWEAKS_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+                android:value="com.android.settings.mdesktop.MDesktopTweaks" />
+            <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/desktop_tweaks_settings" />
+        </activity>
         <!-- /maru -->
 
     </application>

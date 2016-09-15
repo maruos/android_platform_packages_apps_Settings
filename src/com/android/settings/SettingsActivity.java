@@ -99,6 +99,7 @@ import com.android.settings.inputmethod.SpellCheckersSettings;
 import com.android.settings.inputmethod.UserDictionaryList;
 import com.android.settings.location.LocationSettings;
 import com.android.settings.mdesktop.MDesktopSettings;
+import com.android.settings.mdesktop.MDesktopTweaks;
 import com.android.settings.nfc.AndroidBeam;
 import com.android.settings.nfc.PaymentSettings;
 import com.android.settings.notification.AppNotificationSettings;
@@ -358,6 +359,7 @@ public class SettingsActivity extends Activity
             DrawOverlayDetails.class.getName(),
             WriteSettingsDetails.class.getName(),
             MDesktopSettings.class.getName(),
+            MDesktopTweaks.class.getName(),
     };
 
 
