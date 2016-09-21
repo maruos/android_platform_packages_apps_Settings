@@ -7966,11 +7966,13 @@
     <string name="desktop_center_text_starting">Maru Desktop is starting...</string>
     <string name="desktop_center_text_stopping">Maru Desktop is shutting down...</string>
     <string name="desktop_center_text_running">Maru Desktop running.</string>
+    <string name="desktop_center_text_running_bg">Maru Desktop running in background.</string>
     <string name="desktop_center_text_stopped">Maru Desktop off.</string>
     <string name="desktop_center_text_start_failure">Maru Desktop failed to start.</string>
     <string name="desktop_center_text_stop_failure">Maru Desktop failed to stop.</string>
     <string name="desktop_center_text_crash">Maru Desktop unexpectedly stopped.</string>
-    <string name="desktop_center_text_off_hdmi_disconnected">Connect to an HDMI display to start Maru Desktop.</string>
+    <string name="desktop_center_text_hint_interact">Connect to an HDMI display to interact with your desktop.</string>
+    <string name="desktop_center_text_hint_autostart">Connect to an HDMI display to auto-start your desktop.</string>
     <string name="desktop_shutdown_dialog_title">Shutdown desktop?</string>
     <string name="desktop_shutdown_dialog_details">Your desktop apps will be closed immediately so make sure you save any unfinished work.</string>
     <string name="desktop_shutdown_dialog_negative_action">Cancel</string>
