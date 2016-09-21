@@ -48,6 +48,7 @@ public class MDesktopSettings extends Fragment
     private boolean mSwitchBarListening = false;
 
     private TextView mCenterTextView;
+    private TextView mCenterTextHintView;
 
     private ShutdownDialogFragment mShutdownDialogFragment;
     private static final String SHUTDOWN_DIALOG_TAG = ShutdownDialogFragment.class.getName();
@@ -133,6 +134,7 @@ public class MDesktopSettings extends Fragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mdesktop_settings, container, false);
         mCenterTextView = (TextView) view.findViewById(R.id.desktop_settings_center_text);
+        mCenterTextHintView = (TextView) view.findViewById(R.id.desktop_settings_center_hint_text);
         return view;
     }
 
@@ -224,7 +226,10 @@ public class MDesktopSettings extends Fragment
         updateView(mDesktopState);
     }
 
-    private void updateView(int prevDesktopState) {
+    private void updateView(final int prevDesktopState) {
+        // common defaults to simplify state configuration
+        int hintVisibility = View.INVISIBLE;
+
         switch (mDesktopState) {
             case Perspective.STATE_STARTING:
                 mSwitchBar.setChecked(true);
@@ -238,12 +243,12 @@ public class MDesktopSettings extends Fragment
                 break;
             case Perspective.STATE_STOPPED:
                 mSwitchBar.setChecked(false);
-                mSwitchBar.setEnabled(mHdmiDisplayConnected);
+                mSwitchBar.setEnabled(true);
                 if (prevDesktopState == Perspective.STATE_STOPPING || prevDesktopState == mDesktopState) {
-                    if (mHdmiDisplayConnected) {
-                        mCenterTextView.setText(R.string.desktop_center_text_stopped);
-                    } else {
-                        mCenterTextView.setText(R.string.desktop_center_text_off_hdmi_disconnected);
+                    mCenterTextView.setText(R.string.desktop_center_text_stopped);
+                    if (!mHdmiDisplayConnected) {
+                        mCenterTextHintView.setText(R.string.desktop_center_text_hint_autostart);
+                        hintVisibility = View.VISIBLE;
                     }
                 } else if (prevDesktopState == Perspective.STATE_STARTING) {
                     mCenterTextView.setText(R.string.desktop_center_text_start_failure);
@@ -255,12 +260,21 @@ public class MDesktopSettings extends Fragment
                 mSwitchBar.setChecked(true);
                 mSwitchBar.setEnabled(true);
                 if (prevDesktopState == Perspective.STATE_STARTING || prevDesktopState == mDesktopState) {
-                    mCenterTextView.setText(R.string.desktop_center_text_running);
+                    if (mHdmiDisplayConnected) {
+                        mCenterTextView.setText(R.string.desktop_center_text_running);
+                    } else {
+                        mCenterTextView.setText(R.string.desktop_center_text_running_bg);
+                        mCenterTextHintView.setText(R.string.desktop_center_text_hint_interact);
+                        hintVisibility = View.VISIBLE;
+                    }
                 } else if (prevDesktopState == Perspective.STATE_STOPPING) {
                     mCenterTextView.setText(R.string.desktop_center_text_stop_failure);
                 }
                 break;
         }
+
+        // opt: defer state changes for defaults to avoid unnecessary updates
+        mCenterTextHintView.setVisibility(hintVisibility);
     }
 
     private final class DesktopPerspectiveListener

@@ -8,10 +8,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/desktop_center_text_off_hdmi_disconnected"
+        android:text="@string/desktop_center_text_stopped"
         android:id="@+id/desktop_settings_center_text"
-        android:layout_gravity="center_horizontal"
-        android:paddingLeft="75dp"
-        android:paddingRight="75dp"
-        android:gravity="center" />
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingBottom="5dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/desktop_center_text_hint_autostart"
+        android:id="@+id/desktop_settings_center_hint_text"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Caption"
+        android:gravity="center"
+        />
+
 </LinearLayout>
