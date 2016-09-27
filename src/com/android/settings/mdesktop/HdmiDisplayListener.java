@@ -71,6 +71,8 @@ public class HdmiDisplayListener implements DisplayManager.DisplayListener {
     public void sync() {
         Display[] displays = mDisplayManager
                 .getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
+
+        mHdmiDisplayId = -1;
         for (Display display : displays) {
             if (display.getType() == Display.TYPE_HDMI) {
                 mHdmiDisplayId = display.getDisplayId();
