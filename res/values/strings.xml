@@ -7975,7 +7975,7 @@
     <string name="desktop_center_text_start_failure">Maru Desktop failed to start.</string>
     <string name="desktop_center_text_stop_failure">Maru Desktop failed to stop.</string>
     <string name="desktop_center_text_crash">Maru Desktop unexpectedly stopped.</string>
-    <string name="desktop_center_text_hint_interact">Connect to an HDMI display to interact with your desktop.</string>
+    <string name="desktop_center_text_hint_interact">Connect to an external display to interact with your desktop.</string>
     <string name="desktop_center_text_hint_autostart">Connect to an HDMI display to auto-start your desktop.</string>
     <string name="desktop_shutdown_dialog_title">Shutdown desktop?</string>
     <string name="desktop_shutdown_dialog_details">Your desktop apps will be closed immediately so make sure you save any unfinished work.</string>
