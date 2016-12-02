@@ -52,9 +52,9 @@ public class MDesktopSettings extends Fragment
     private int mDesktopState;
 
     private DisplayManager mDisplayManager;
-    private HdmiDisplayListener mHdmiDisplayListener;
+    private MaruDisplayListener mMaruDisplayListener;
     private boolean mDisplayListening = false;
-    private boolean mHdmiDisplayConnected = false;
+    private boolean mMaruDisplayConnected = false;
 
     private SwitchBar mSwitchBar;
     private boolean mSwitchBarListening = false;
@@ -80,19 +80,19 @@ public class MDesktopSettings extends Fragment
 
         mDesktopListener = new DesktopPerspectiveListener();
 
-        mHdmiDisplayListener = new HdmiDisplayListener(context, mDisplayManager);
-        mHdmiDisplayListener.setHdmiDisplayCallback(new HdmiDisplayListener.HdmiDisplayCallback() {
+        mMaruDisplayListener = new MaruDisplayListener(context, mDisplayManager);
+        mMaruDisplayListener.setDisplayCallback(new MaruDisplayListener.MaruDisplayCallback() {
             @Override
-            public void onHdmiDisplayAdded() {
-                Log.d(TAG, "onHdmiDisplayAdded");
-                mHdmiDisplayConnected = true;
+            public void onDisplayAdded() {
+                Log.d(TAG, "onDisplayAdded");
+                mMaruDisplayConnected = mMaruDisplayListener.isMaruDisplayConnected();
                 updateView();
             }
 
             @Override
-            public void onHdmiDisplayRemoved() {
-                Log.d(TAG, "onHdmiDisplayRemoved");
-                mHdmiDisplayConnected = false;
+            public void onDisplayRemoved() {
+                Log.d(TAG, "onDisplayRemoved");
+                mMaruDisplayConnected = mMaruDisplayListener.isMaruDisplayConnected();
                 updateView();
             }
         });
@@ -111,10 +111,12 @@ public class MDesktopSettings extends Fragment
             mSwitchBarListening = true;
         }
         if (!mDisplayListening) {
-            mDisplayManager.registerDisplayListener(mHdmiDisplayListener, null);
+            // registered on calling thread's looper
+            mDisplayManager.registerDisplayListener(mMaruDisplayListener, null);
             mDisplayListening = true;
         }
         if (!mDesktopListening) {
+            // registered on calling thread's looper
             mPerspectiveManager.registerPerspectiveListener(mDesktopListener, null);
             mDesktopListening = true;
         }
@@ -132,7 +134,7 @@ public class MDesktopSettings extends Fragment
             mSwitchBarListening = false;
         }
         if (mDisplayListening) {
-            mDisplayManager.unregisterDisplayListener(mHdmiDisplayListener);
+            mDisplayManager.unregisterDisplayListener(mMaruDisplayListener);
             mDisplayListening = false;
         }
         if (mDesktopListening) {
@@ -220,8 +222,8 @@ public class MDesktopSettings extends Fragment
         mDesktopState = mPerspectiveManager.isDesktopRunning() ?
                 Perspective.STATE_RUNNING : Perspective.STATE_STOPPED;
 
-        mHdmiDisplayListener.sync();
-        mHdmiDisplayConnected = mHdmiDisplayListener.isHdmiDisplayConnected();
+        mMaruDisplayListener.sync();
+        mMaruDisplayConnected = mMaruDisplayListener.isMaruDisplayConnected();
 
         updateView();
     }
@@ -258,7 +260,7 @@ public class MDesktopSettings extends Fragment
                 mSwitchBar.setEnabled(true);
                 if (prevDesktopState == Perspective.STATE_STOPPING || prevDesktopState == mDesktopState) {
                     mCenterTextView.setText(R.string.desktop_center_text_stopped);
-                    if (!mHdmiDisplayConnected) {
+                    if (!mMaruDisplayConnected) {
                         mCenterTextHintView.setText(R.string.desktop_center_text_hint_autostart);
                         hintVisibility = View.VISIBLE;
                     }
@@ -272,7 +274,7 @@ public class MDesktopSettings extends Fragment
                 mSwitchBar.setChecked(true);
                 mSwitchBar.setEnabled(true);
                 if (prevDesktopState == Perspective.STATE_STARTING || prevDesktopState == mDesktopState) {
-                    if (mHdmiDisplayConnected) {
+                    if (mMaruDisplayConnected) {
                         mCenterTextView.setText(R.string.desktop_center_text_running);
                     } else {
                         mCenterTextView.setText(R.string.desktop_center_text_running_bg);
