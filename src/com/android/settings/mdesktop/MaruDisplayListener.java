@@ -21,46 +21,49 @@ import android.content.Context;
 import android.hardware.display.DisplayManager;
 import android.view.Display;
 
-public class HdmiDisplayListener implements DisplayManager.DisplayListener {
-    private static final String TAG = HdmiDisplayListener.class.getName();
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Utility class for keeping track of displays relevant to Maru.
+ *
+ * Right now, this keeps track of all displays that are eligible for mirroring,
+ * i.e. all public presentation displays.
+ */
+public class MaruDisplayListener implements DisplayManager.DisplayListener {
+    private static final String TAG = MaruDisplayListener.class.getName();
     private final Context mContext;
     private final DisplayManager mDisplayManager;
-    private int mHdmiDisplayId = -1;
+    private Set<Integer> mMirrorableDisplays;
 
-    public interface HdmiDisplayCallback {
-        void onHdmiDisplayAdded();
-        void onHdmiDisplayRemoved();
+    public interface MaruDisplayCallback {
+        void onDisplayAdded();
+        void onDisplayRemoved();
     }
-    private HdmiDisplayCallback mCallback;
+    private MaruDisplayCallback mCallback;
 
-    public HdmiDisplayListener(Context context, DisplayManager displayManager) {
+    public MaruDisplayListener(Context context, DisplayManager displayManager) {
         mContext = context;
         mDisplayManager = displayManager;
+        mMirrorableDisplays = new HashSet<Integer>();
     }
 
     @Override
     public void onDisplayAdded(int displayId) {
         Display display = mDisplayManager.getDisplay(displayId);
-        final boolean hdmiDisplayAdded = display.getType() == Display.TYPE_HDMI;
 
-        if (hdmiDisplayAdded) {
-            if (mHdmiDisplayId == -1) {
-                mHdmiDisplayId = displayId;
-                if (mCallback != null) {
-                    mCallback.onHdmiDisplayAdded();
-                }
+        if (display.isPublicPresentation() && mMirrorableDisplays.add(displayId)) {
+            if (mCallback != null) {
+                mCallback.onDisplayAdded();
             }
         }
     }
 
     @Override
     public void onDisplayRemoved(int displayId) {
-        if (displayId == mHdmiDisplayId) {
-            if (mHdmiDisplayId != -1) {
-                mHdmiDisplayId = -1;
-                if (mCallback != null) {
-                    mCallback.onHdmiDisplayRemoved();
-                }
+        if (mMirrorableDisplays.remove(displayId)) {
+            if (mCallback != null) {
+                mCallback.onDisplayRemoved();
             }
         }
     }
@@ -69,27 +72,25 @@ public class HdmiDisplayListener implements DisplayManager.DisplayListener {
     public void onDisplayChanged(int displayId) { /* no-op */ }
 
     public void sync() {
+        mMirrorableDisplays.clear();
         Display[] displays = mDisplayManager
                 .getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
-
-        mHdmiDisplayId = -1;
         for (Display display : displays) {
-            if (display.getType() == Display.TYPE_HDMI) {
-                mHdmiDisplayId = display.getDisplayId();
-                break;
+            if (display.isPublicPresentation()) {
+                mMirrorableDisplays.add(display.getDisplayId());
             }
         }
     }
 
-    public boolean isHdmiDisplayConnected() {
-        return mHdmiDisplayId != -1;
+    public boolean isMaruDisplayConnected() {
+        return !mMirrorableDisplays.isEmpty();
     }
 
-    public void setHdmiDisplayCallback(HdmiDisplayCallback callback) {
+    public void setDisplayCallback(MaruDisplayCallback callback) {
         mCallback = callback;
     }
 
-    public void removeHdmiDisplayCallback() {
+    public void removeDisplayCallback() {
         mCallback = null;
     }
 }
