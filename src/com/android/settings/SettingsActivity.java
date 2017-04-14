@@ -1139,6 +1139,10 @@ public class SettingsActivity extends SettingsDrawerActivity
                 BackupSettingsActivity.class.getName()), hasBackupActivity,
                 isAdmin || Utils.isCarrierDemoUser(this), pm);
 
+        setTileEnabled(new ComponentName(packageName,
+                Settings.MDesktopSettingsActivity.class.getName()),
+                true, isAdmin, pm);
+
     }
 
     private void setTileEnabled(ComponentName component, boolean enabled, boolean isAdmin,
