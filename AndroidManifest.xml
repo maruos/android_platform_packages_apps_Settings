@@ -158,8 +158,16 @@
 
         <activity android:name=".SystemSettings"
             android:label="@string/header_category_system">
-            <intent-filter android:priority="1">
+            <intent-filter android:priority="0">
                 <action android:name="com.android.settings.category.system" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".DesktopSettings"
+            android:label="Desktop">
+            <intent-filter android:priority="1">
+                <action android:name="com.android.settings.category.desktop" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -3218,6 +3226,7 @@
         <!-- maru -->
         <activity android:name="Settings$MDesktopSettingsActivity"
             android:label="@string/desktop_main_settings_title"
+            android:icon="@drawable/ic_desktop_power"
             android:taskAffinity="com.android.settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -3225,10 +3234,13 @@
                 <action android:name="com.android.settings.MDESKTOP_SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter android:priority="1">
+                <action android:name="com.android.settings.action.SETTINGS" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.category"
+                android:value="com.android.settings.category.desktop" />
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                 android:value="com.android.settings.mdesktop.MDesktopSettings" />
-            <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
-                android:resource="@id/desktop_status_settings" />
         </activity>
         <!-- /maru -->
 
