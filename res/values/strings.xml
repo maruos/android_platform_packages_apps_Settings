@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2007 The Android Open Source Project
+     Copyright (C) 2016 The Maru OS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -9054,4 +9055,26 @@
 
     <!-- Note displayed when certain features are not available on low ram devices. [CHAR LIMIT=NONE] -->
     <string name="disabled_low_ram_device">This feature is not available on this device</string>
+
+    <!-- Maru Desktop settings -->
+    <!-- Title for setting tile leading to Desktop settings [CHAR LIMIT=40]-->
+    <string name="desktop_dashboard_title">Desktop</string>
+    <!-- Summary for Desktop settings [CHAR LIMIT=NONE]-->
+    <string name="desktop_dashboard_summary">Manage your desktop</string>
+    <string name="help_url_desktop_dashboard" translatable="false"></string>
+    <string name="desktop_main_settings_title">Dashboard</string>
+    <string name="desktop_status_starting">Maru Desktop is starting...</string>
+    <string name="desktop_status_stopping">Maru Desktop is shutting down...</string>
+    <string name="desktop_status_running">Maru Desktop running.</string>
+    <string name="desktop_status_running_bg">Maru Desktop running in background.</string>
+    <string name="desktop_status_stopped">Maru Desktop off.</string>
+    <string name="desktop_status_start_failure">Maru Desktop failed to start.</string>
+    <string name="desktop_status_stop_failure">Maru Desktop failed to stop.</string>
+    <string name="desktop_status_crash">Maru Desktop unexpectedly stopped.</string>
+    <string name="desktop_status_hint_interact">Connect to an external display to interact with your desktop.</string>
+    <string name="desktop_status_hint_autostart">Connect to an HDMI display to auto-start your desktop.</string>
+    <string name="desktop_shutdown_dialog_title">Shutdown desktop?</string>
+    <string name="desktop_shutdown_dialog_details">Your desktop apps will be closed immediately so make sure you save any unfinished work.</string>
+    <string name="desktop_shutdown_dialog_negative_action">Cancel</string>
+    <string name="desktop_shutdown_dialog_positive_action">Shutdown</string>
 </resources>

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2018 The Maru OS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +26,7 @@ import com.android.settings.accounts.UserAndAccountDashboardFragment;
 import com.android.settings.applications.AppAndNotificationDashboardFragment;
 import com.android.settings.applications.DefaultAppSettings;
 import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.desktop.DesktopDashboardFragment;
 import com.android.settings.development.DevelopmentSettings;
 import com.android.settings.deviceinfo.StorageDashboardFragment;
 import com.android.settings.fuelgauge.PowerUsageSummary;
@@ -89,6 +91,8 @@ public class DashboardFragmentRegistry {
                 CategoryKey.CATEGORY_NOTIFICATIONS);
         PARENT_TO_CATEGORY_KEY_MAP.put(LockscreenDashboardFragment.class.getName(),
                 CategoryKey.CATEGORY_SECURITY_LOCKSCREEN);
+        PARENT_TO_CATEGORY_KEY_MAP.put(DesktopDashboardFragment.class.getName(),
+                CategoryKey.CATEGORY_MARU_DESKTOP);
 
         CATEGORY_KEY_TO_PARENT_MAP = new ArrayMap<>(PARENT_TO_CATEGORY_KEY_MAP.size());
 

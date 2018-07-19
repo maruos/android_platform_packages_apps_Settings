@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2016 The Maru OS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +66,7 @@ import com.android.settings.datausage.DataPlanUsageSummary;
 import com.android.settings.datausage.DataUsageList;
 import com.android.settings.datausage.DataUsageSummary;
 import com.android.settings.deletionhelper.AutomaticStorageManagerSettings;
+import com.android.settings.desktop.DesktopDashboardFragment;
 import com.android.settings.development.DevelopmentSettings;
 import com.android.settings.deviceinfo.ImeiInformation;
 import com.android.settings.deviceinfo.PrivateVolumeForget;
@@ -252,7 +254,8 @@ public class SettingsGateway {
             WebViewAppPicker.class.getName(),
             LockscreenDashboardFragment.class.getName(),
             BluetoothDeviceDetailsFragment.class.getName(),
-            DataUsageList.class.getName()
+            DataUsageList.class.getName(),
+            DesktopDashboardFragment.class.getName()
     };
 
     public static final String[] SETTINGS_FOR_RESTRICTED = {
