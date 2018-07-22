@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2008 The Android Open Source Project
+     Copyright (C) 2018 The Maru OS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -75,6 +76,12 @@
         <Preference
                 android:key="device_model"
                 android:title="@string/model_info"
+                android:summary="@string/summary_placeholder"/>
+
+        <!-- Maru version -->
+        <Preference
+                android:key="maru_version"
+                android:title="@string/maru_version"
                 android:summary="@string/summary_placeholder"/>
 
         <!-- Device firmware version -->

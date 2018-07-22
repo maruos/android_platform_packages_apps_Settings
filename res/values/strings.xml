@@ -9056,7 +9056,12 @@
     <!-- Note displayed when certain features are not available on low ram devices. [CHAR LIMIT=NONE] -->
     <string name="disabled_low_ram_device">This feature is not available on this device</string>
 
-    <!-- Maru Desktop settings -->
+    <!-- Maru -->
+
+    <!-- About phone screen, status item label  [CHAR LIMIT=40] -->
+    <string name="maru_version">Maru version</string>
+
+    <!-- Desktop settings -->
     <!-- Title for setting tile leading to Desktop settings [CHAR LIMIT=40]-->
     <string name="desktop_dashboard_title">Desktop</string>
     <!-- Summary for Desktop settings [CHAR LIMIT=NONE]-->
