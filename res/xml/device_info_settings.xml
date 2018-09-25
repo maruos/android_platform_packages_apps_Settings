@@ -68,10 +68,6 @@
         <Preference android:key="device_feedback"
                 android:title="@string/device_feedback" />
 
-        <!-- Contributors cloud -->
-        <org.lineageos.internal.lineageparts.LineagePartsPreference
-                android:key="contributors" />
-
         <!-- Device hardware model -->
         <Preference
                 android:key="device_model"
@@ -88,14 +84,6 @@
         <Preference android:key="firmware_version"
                 android:title="@string/firmware_version"
                 android:summary="@string/summary_placeholder"/>
-
-        <!-- LineageOS version -->
-        <org.lineageos.internal.preference.deviceinfo.LineageVersionPreference
-                android:key="lineage_version" />
-
-        <!-- LineageOS API version -->
-        <org.lineageos.internal.preference.deviceinfo.LineageAPIVersionPreference
-                android:key="lineage_api_level" />
 
         <!-- Security patch level -->
         <Preference android:key="security_patch"
